@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Categoria;
 use App\Models\Producto;
 use Illuminate\Validation\ValidationException ;
-Use Alert;
+Use  RealRashid\SweetAlert\Facades\Alert;
 use Yajra\Datatables\Datatables; 
 class ProductoController extends Controller
 {
@@ -56,6 +56,7 @@ class ProductoController extends Controller
     public function save(Request $request)
     {
         $request->validate(Producto::$rules);
+
         $input = $request->all();
         try {
             Producto::create([   
@@ -65,10 +66,10 @@ class ProductoController extends Controller
                 "precio" => $input["precio"],    
                 "estado" => 1
             ]);
-
-            return redirect("/producto")->with('success', 'Producto creado satisfactoriamente!');
+            alert()->success('Producto creado Exitosamente');
+            return redirect("/producto");
         } catch (\Exception $e) {
-
+            alert()->warning('Error', 'Error al crear Producto');
             return redirect("/producto")->with('error', 'Error al crear producto');;
         }
     }
@@ -116,10 +117,11 @@ class ProductoController extends Controller
             ]);
 
           
-
-            return redirect("/producto")->with('success', 'Producto modificado satisfactoriamente!');
+            alert()->success('Producto modificado Exitosamente');
+            return redirect("/producto");
         } catch (\Exception $e) {
-            return redirect("/producto")->with('error', 'Error al modificar producto');
+            alert()->warning('Error', 'Error al Modificar Producto');
+            return redirect("/producto");
         }
     }
 
@@ -140,11 +142,10 @@ class ProductoController extends Controller
 
 
             $producto->update(["estado" => $estado]);
-        
+            alert()->success('Estado modificado Exitosamente');
             return redirect("/producto")->with('success', 'Estado modificado satisfactoriamente!');
         } catch (\Exception $e) {
-          
-
+            alert()->warning('Error', 'Error al Modificar estado');
             return redirect("/producto")->with('error', 'Error al modifcar estado');
         }
     }

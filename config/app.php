@@ -177,7 +177,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Laraveles\Spanish\SpanishServiceProvider::class,
-
+        UxWeb\SweetAlert\SweetAlertServiceProvider::class,
     ],
 
     /*

@@ -105,10 +105,12 @@ class ComprasController extends Controller
             }
 
             DB::commit();
-            return redirect("/compra")->with("success", "Compra creado satisfactoriamente!");
+            alert()->success('Compra creado Exitosamente');
+            return redirect("/compra");
         } catch (\Exception $e) {
             DB::rollBack();
-            return $e;
+            alert()->warning('Error', 'Error al crear compra');
+            return redirect("/compra");
         }
     }
    
@@ -122,10 +124,11 @@ class ComprasController extends Controller
 
         try {
             $compra->update(["estado" => $estado]);
-
-            return redirect("/compra")->with('success', 'Estado modificado satisfactoriamente!');
+            alert()->success('Estado modificado Exitosamente');
+            return redirect("/compra");
         } catch (\Exception $e) {
-            return redirect("/compra")->with('error', 'Error al modifcar estado');
+            alert()->warning('Error', 'Error al modificar estado');
+            return redirect("/compra");
         }
     }
 

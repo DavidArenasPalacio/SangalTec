@@ -6,11 +6,28 @@
 <section class="cotainer">
     <div class="p-3 m-auto bg-white">
         <h2>Productos:</h2>
-        @foreach($detal as  $value)
-        <p><strong>Nombre Producto: </strong>{{$value->producto}}</p>
-        <p><strong>Nombre Cantidad: </strong>{{$value->cantidad}}</p>
 
-        @endforeach
+
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($detal as $value)
+                <tr>
+                    <td>{{$value->producto}}</td>
+                    <td>{{$value->cantidad}}</td>
+                </tr>
+
+                @endforeach
+            </tbody>
+        </table>
+
+
+
         <a href="/compra" class="btn btn-success">Volver</a>
     </div>
 </section>

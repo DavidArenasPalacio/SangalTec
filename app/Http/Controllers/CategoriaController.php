@@ -54,10 +54,12 @@ class CategoriaController extends Controller
                 "estado"=>1
             ]);
 
-            return redirect("/categoria")->with('success', 'Categoría creado con exito!');
+            alert()->success('Categoría creado Exitosamente');
+            return redirect("/categoria");
 
         } catch (\exception $e) {
-            return redirect("/categoria")->with('erro', 'Error al crear Categoría');
+            alert()->warning('Error', 'Error al crear categoría');
+            return redirect("/categoria");
         }
     }
     
@@ -97,10 +99,11 @@ class CategoriaController extends Controller
             ]);
 
           
-            
-            return redirect("/categoria")->with('success', 'Categoría modificado con exito!');
+            alert()->success('Categoría modificado Exitosamente');
+            return redirect("/categoria");
         } catch (\Exception $e) {
-            return redirect("/categoria")->with('error', 'Error al modificar categoría');
+            alert()->warning('Error', 'Error al modificar categoría');;
+            return redirect("/categoria");
         }
     }
 
@@ -122,12 +125,13 @@ class CategoriaController extends Controller
 
 
             $categoria->update(["estado" => $estado]);
+            alert()->success('Estado modificado Exitosamente');
         
-            return redirect("/categoria")->with('success', 'Estado modificado con exito!');
+            return redirect("/categoria");
         } catch (\Exception $e) {
           
-
-            return redirect("/categoria")->with('error', 'Error al modifcar estado');
+            alert()->warning('Error', 'Error al modificar estado');;
+            return redirect("/categoria");
         }
     }
 }
