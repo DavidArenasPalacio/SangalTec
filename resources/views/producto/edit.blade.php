@@ -2,6 +2,9 @@
 
 
 @section('content')
+<section class="container">
+<div class="p-5 bg-white">
+    <h2 class="text-center">Modificar Producto</h2>
 <form action="/producto/actualizar" method="post">
     @csrf
     <input type="hidden" name="idProducto" value="{{$producto[0]["idProducto"]}}">
@@ -45,6 +48,12 @@
         </span>
         @enderror
     </div>
+    <div class="d-flex justify-content-between">
+    <a href="/producto" class="btn btn-primary">Cancelar</a>
     <button type="submit" class="btn btn-success">Modificar producto</button>
+   
+    </div>
 </form>
+</div>
+</section>
 @endsection
