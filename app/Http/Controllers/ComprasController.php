@@ -21,9 +21,11 @@ class ComprasController extends Controller
     public function index()
     {
         $proveedor = Proveedor::all();
-        $categorias = Categoria::all();
+        $productos = Producto::all();
 
-        return view("compra.index", compact("proveedor", "categorias"));
+    
+        
+        return view("compra.index", compact("proveedor", "productos"));
     }
 
 
@@ -75,7 +77,7 @@ class ComprasController extends Controller
                 $compra = Compra::create([
                     "idEmpleado" => 1,
                     "idProveedor" => $input['proveedor_id'],
-                    "total" =>  $input["total"],
+                    "total" =>  1000,
                     "estado" => 1
                 ]);
             
@@ -84,21 +86,30 @@ class ComprasController extends Controller
           
            
             foreach ($input["nombreProducto"] as $key => $value) {
-
+              
+                $productoUpdate = Producto::where("producto.nombre", "=", $value)->first();
                
-                $producto = Producto::create([
+               
+                
+                $productoUpdate->update(["cantidad" => $productoUpdate["cantidad"] + $input["cantidad"][$key]]);
+/* 
+                $productoId = Producto::where("producto.nombre", "=", $value)->first();
+ */
+                /* $producto = Producto::create([
                     "categoria_id" => $input["categoria_id"][$key],
                     "nombre" => $value,
                     "precio" => $input["precio"][$key],
                     "cantidad" => $input["cantidad"][$key],
                     "estado" => 1
-                ]); 
-
+                ]);  */
+              
+/* 
+                return response()->json($productoId["idProducto"]); */
                 
 
             
                 DetallesCompra::create([
-                    "producto_id" => $producto->id,
+                    "producto_id" => $productoUpdate["idProducto"],
                     "compra_id" => $compra->id,
                     "cantidad" => $input["cantidad"][$key]
                 ]);
@@ -110,7 +121,7 @@ class ComprasController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             alert()->warning('Error', 'Error al crear compra');
-            return redirect("/compra");
+            return $e;
         }
     }
    

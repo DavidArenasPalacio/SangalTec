@@ -28,6 +28,7 @@
                         <form action="/compra/guardar" method="post" id="form">
                             <div class="row">
                                 <div class="col-4">
+                                    
                                     @csrf
                                     <h2>Proveedor:</h2>
                                     <div class="mb-3">
@@ -45,34 +46,24 @@
                                         @enderror
                                     </div>
                                     <h2>Producto:</h2>
-                                    <div class="mb-3">
-                                        <label for="">Nombre: </label>
-                                        <input type="text"  class="form-control @error('nombre') is-invalid @enderror" id="nombreProducto">
-                                        @error('nombre')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
                                     <div class="mb3">
-                                        <label for="">Categoría: </label>
-                                        <select class="form-control @error('categoria_id') is-invalid @enderror" id="categoria">
+                                        <label for="">Producto: </label>
+                                        <select class="form-control @error('idProducto') is-invalid @enderror" id="nombreProducto" onchange="precioProducto()">
                                             <option value="">------Seleccione-----</option>
-                                            @foreach($categorias as $value)
-                                            <option value="{{ $value->idCategoria }}">{{ $value->nombre }}</option>
+                                            @foreach($productos as $value)
+                                            <option value="{{ $value->idProducto }}"  precio="{{ $value->precio }}" >{{ $value->nombre }}</option>
                                             @endforeach
                                         </select>
-                                        @error('categoria_id')
+                                        @error('idProducto')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
                                     </div>
                                     <div class="mb-3">
-                                    <input type="hidden"  name="total" id="precioTotalDb">
                                         <label for="">Precio: </label>
-                                        <input type="number" class="form-control @error('precio') is-invalid @enderror" id="precio">
-                                        @error('precio')
+                                        <input type="number" class="form-control @error('precio') is-invalid @enderror" id="precio"  readonly>
+                                        @error('cantidad')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -87,14 +78,13 @@
                                         </span>
                                         @enderror
                                     </div>
-                                    <button type="button" class="btn btn-primary w-100" onclick="agregarCompra()">Agregar</button>
+                                    <button type="button" class="btn btn-primary w-100" onclick="agregarCompra()" >Agregar</button>
                                 </div>
                                 <div class="col-8">
                                     <table class="table">
                                         <thead>
                                             <tr>
                                                 <th>Proveedor</th>
-                                                <th>Categoría</th>
                                                 <th>Producto</th>
                                                 <th>Precio</th>
                                                 <th>Cantidad</th>
@@ -230,12 +220,16 @@
     });
 
 
+    function precioProducto(){
+        let precio = $("#nombreProducto option:selected").attr("precio");
+        console.log(precio);
+        $("#precio").val(precio);
+    }
+
     function agregarCompra() {
         let proveedor = $("#proveedor option:selected").val();
         let proveedorNombre = $("#proveedor option:selected").text();
-        let nombreProducto = $("#nombreProducto").val()
-        let categoria = $("#categoria option:selected").val();
-        let categoriaNombre = $("#categoria option:selected").text();
+        let nombreProducto = $("#nombreProducto option:selected").text()
         let precio = $("#precio").val();
         let cantidad = $("#cantidad").val();
 
@@ -245,13 +239,11 @@
             $("#tblCompra").append(`
                 <tr id="tr-${cont}">
                 <input type="hidden" name="proveedor_id" value="${proveedor}">
-                <input type="hidden" name="categoria_id[]" value="${categoria}">
                 <input type="hidden" name="nombreProducto[]" value="${nombreProducto}">
                 <input type="hidden" name="precio[]" value="${precio}">
                 <input type="hidden" name="cantidad[]" value="${cantidad}">
                 
                 <td >${proveedorNombre}</td>
-                <td>${categoriaNombre}</td>
                 <td class="nombreProducto">${nombreProducto}</td>
                 <td>${precio}</td>
                 <td id="cantidad">${cantidad}</td>
