@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ComprasController;
+use App\Http\Controllers\ProveedorController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +31,7 @@ Route::get('/categoria', [CategoriaController::class, 'index']);
 Route::get('/categoria/listar', [CategoriaController::class, 'listar']);
 Route::post('/categoria/guardar', [CategoriaController::class, 'save']);
 Route::get('/categoria/editar/{id}', [CategoriaController::class, 'edit']);
+Route::get('/categoria/eliminar/{id}', [CategoriaController::class, 'delete']);
 Route::post('/categoria/actualizar', [CategoriaController::class, 'update']);
 Route::get('/categoria/cambiar/estado/{idCategoria}/{estado}', [CategoriaController::class, 'updateState']);
 
@@ -47,3 +50,9 @@ Route::get('/compra/detalle/{id}', [ComprasController::class, 'detalle']);
 Route::get('/compra/cambiar/estado/{idCompra}/{estado}', [ComprasController::class, 'updateState']);
 
 
+Route::get('/proveedor', [ProveedorController::class, 'index']);
+Route::get('/proveedor/listar', [ProveedorController::class, 'listar']);
+Route::post('/proveedor/guardar', [ProveedorController::class, 'save']);
+Route::get('/proveedor/editar/{id}', [ProveedorController::class, 'edit']);
+Route::post('/proveedor/actualizar', [ProveedorController::class, 'update']);
+Route::get('/proveedor/cambiar/estado/{id}/{estado}', [ProductoController::class, 'updateState']);

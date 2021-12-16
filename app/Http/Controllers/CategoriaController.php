@@ -37,7 +37,7 @@ class CategoriaController extends Controller
                 $estado = '<a href="/categoria/cambiar/estado/'.$categoria->idCategoria.'/1" class="btn btn-primary btn-sm btnEstado"><i class="fas fa-unlock"></i></a>';
             }
 
-            return '<a href="/categoria/editar/'.$categoria->idCategoria.'" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>'.' '.$estado;
+            return '<a href="/categoria/editar/'.$categoria->idCategoria.'" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>'.' '. '<a href="/categoria/eliminar/'.$categoria->idCategoria.'" class="btn btn-danger btn-sm">Eliminar</a>' .' '.$estado;
         })
         ->rawColumns(['estado','acciones'])
         ->make(true);
@@ -131,6 +131,29 @@ class CategoriaController extends Controller
         } catch (\Exception $e) {
           
             alert()->warning('Error', 'Error al modificar estado');;
+            return redirect("/categoria");
+        }
+    }
+
+
+
+    public function delete($id){
+        $categoria = Categoria::where("categoria.idCategoria",$id); 
+
+        if($categoria == null) {
+            return redirect("/categoria");
+        }
+
+
+        try {
+            
+            $categoria->delete($categoria);
+            alert()->success('Categoŕia eliminado correctamente');
+
+            return redirect("/categoria");
+        } catch (\Exception $e) {
+            alert()->warning('error','Error al eliminar categoría');
+
             return redirect("/categoria");
         }
     }

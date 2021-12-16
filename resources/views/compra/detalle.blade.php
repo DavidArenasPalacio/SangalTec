@@ -12,7 +12,7 @@
             <thead class="table-light">
                 <tr>
                     <th>Producto</th>
-                    <th>Cantidad</th>
+                    <th>Cantidad Compra</th>
                 </tr>
             </thead>
             <tbody>

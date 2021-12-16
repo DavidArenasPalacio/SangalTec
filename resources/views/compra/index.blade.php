@@ -32,7 +32,7 @@
                                     <h2>Proveedor:</h2>
                                     <div class="mb-3">
                                         <label for="">proveedor:</label>
-                                        <select  class="form-control @error('proveedor_id') is-invalid @enderror" id="proveedor">
+                                        <select class="form-control @error('proveedor_id') is-invalid @enderror" id="proveedor">
                                             <option value="">------Seleccione-----</option>
                                             @foreach($proveedor as $value)
                                             <option value="{{ $value->idProveedor }}">{{ $value->nombre }}</option>
@@ -47,7 +47,7 @@
                                     <h2>Producto:</h2>
                                     <div class="mb-3">
                                         <label for="">Nombre: </label>
-                                        <input type="text"  class="form-control @error('nombre') is-invalid @enderror" id="nombreProducto">
+                                        <input type="text" class="form-control @error('nombre') is-invalid @enderror" id="nombreProducto">
                                         @error('nombre')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="mb3">
                                         <label for="">Categoría: </label>
-                                        <select class="form-control @error('categoria_id') is-invalid @enderror" id="categoria">
+                                        <select class="form-control @error('categoria_id') is-invalid @enderror" id="categoria" >
                                             <option value="">------Seleccione-----</option>
                                             @foreach($categorias as $value)
                                             <option value="{{ $value->idCategoria }}">{{ $value->nombre }}</option>
@@ -69,7 +69,7 @@
                                         @enderror
                                     </div>
                                     <div class="mb-3">
-                                    <input type="hidden"  name="total" id="precioTotalDb">
+                                        <input type="hidden" name="total" id="precioTotalDb">
                                         <label for="">Precio: </label>
                                         <input type="number" class="form-control @error('precio') is-invalid @enderror" id="precio">
                                         @error('precio')
@@ -230,7 +230,10 @@
     });
 
 
+
+
     function agregarCompra() {
+
         let proveedor = $("#proveedor option:selected").val();
         let proveedorNombre = $("#proveedor option:selected").text();
         let nombreProducto = $("#nombreProducto").val()
@@ -241,8 +244,10 @@
 
         let cont = 0;
         if (cantidad >= 0 && precio >= 0) {
-             
-            $("#tblCompra").append(`
+
+
+           
+                $("#tblCompra").append(`
                 <tr id="tr-${cont}">
                 <input type="hidden" name="proveedor_id" value="${proveedor}">
                 <input type="hidden" name="categoria_id[]" value="${categoria}">
@@ -252,30 +257,34 @@
                 
                 <td >${proveedorNombre}</td>
                 <td>${categoriaNombre}</td>
-                <td class="nombreProducto">${nombreProducto}</td>
+                <td id="nombreTable">${nombreProducto}</td>
                 <td>${precio}</td>
-                <td id="cantidad">${cantidad}</td>
-                <td>${cantidad * precio}</td>
+                <td id="cantidad-${cont}">${cantidad}</td>
+                <td id="subtotal-${cont}">${cantidad * precio}</td>
                 <td>
                     <button type="button" class="btn btn-danger" onclick="eliminarCompra(${cont}, ${parseInt(cantidad) * parseInt(precio)})">Eliminar</button>
                 </td>
                 </tr>
             `);
+            
+            /* let subtotal = parseInt($("#subtotal-"+cont).text()); */
+
             cont++;
 
- 
-          
+
+
+
             let precioTotal = $("#precioTotal").text() || "0";
-            console.log(precioTotal);
+           
+         
             $("#precioTotal").text(parseInt(precioTotal) + parseInt(cantidad) * parseInt(precio));
             $("#precioTotalDb").val(parseInt(precioTotal) + parseInt(cantidad) * parseInt(precio));
-           
-        }
-        else {
+
+        } else {
             swal.fire('La cantidad y el producto no deben ser menor o igaual a cero');
         }
         $('#form')[0].reset();
-      console.log($(".nombreProducto").text());
+        console.log($(".nombreProducto").text());
     }
 
     function eliminarCompra(proveedor, subtotal) {
@@ -285,8 +294,14 @@
         $("#precioTotal").text(parseInt(precioTotal) - subtotal);
     }
 
-    function modificarCantidad($id, nombreProducto){
-
-    }
+   /*  function actualizarCantidad(id, cantidad) {
+        let cantidadTable = $("#cantidad-" + id).text(parseInt(cantidad) + parseInt($("#cantidad-" + id).text()));
+        let subtotal = $("#subtotal-"+id).text();
+        $("#subtotal-"+id).text(parseInt(subtotal)*parseInt(cantidad) + parseInt($("#cantidad-" + id).text()));
+        let precioTotal = $("#precioTotal").text() || "0";
+        $("#precioTotal").text(parseInt(precioTotal) +  parseInt(subtotal)*parseInt(cantidad) + parseInt($("#cantidad-" + id).text()));
+        console.log(cantidadTable);
+      
+    } */
 </script>
 @endsection
