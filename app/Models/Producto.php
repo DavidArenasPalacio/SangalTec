@@ -20,11 +20,8 @@ class Producto extends Model
         'estado' => 'in:1,0'
     ];
 
-<<<<<<< HEAD
+
     protected $primaryKey = 'idProducto';
-=======
-    public $primaryKey  = 'idProducto';
->>>>>>> 1563701f5c86341491b4fb7c17c921b0525b1894
 
     public $timestamps = false;
 }

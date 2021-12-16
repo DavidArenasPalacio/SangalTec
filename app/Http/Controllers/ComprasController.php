@@ -21,14 +21,12 @@ class ComprasController extends Controller
     public function index()
     {
         $proveedor = Proveedor::all();
-<<<<<<< HEAD
-        $categorias = Categoria::where("estado", 1)->get();
-=======
-        $productos = Producto::all();
->>>>>>> 1563701f5c86341491b4fb7c17c921b0525b1894
 
-    
-        
+        $productos = Producto::all();
+
+
+
+
         return view("compra.index", compact("proveedor", "productos"));
     }
 
@@ -76,52 +74,28 @@ class ComprasController extends Controller
             DB::beginTransaction();
 
 
-<<<<<<< HEAD
+
             $compra = Compra::create([
                 "idEmpleado" => 1,
                 "idProveedor" => $input['proveedor_id'],
                 "total" =>  $input["total"],
                 "estado" => 1
             ]);
-=======
-           
-                $compra = Compra::create([
-                    "idEmpleado" => 1,
-                    "idProveedor" => $input['proveedor_id'],
-                    "total" =>  1000,
-                    "estado" => 1
-                ]);
-            
-          
->>>>>>> 1563701f5c86341491b4fb7c17c921b0525b1894
+
+
+
+
+
 
             foreach ($input["nombreProducto"] as $key => $value) {
-<<<<<<< HEAD
-                $product = Producto::where("producto.nombre", $value)->first();
-                $producto = [];
-                if ($product == null) {
-                    $producto = Producto::create([
-                        "categoria_id" => $input["categoria_id"][$key],
-                        "nombre" => $value,
-                        "precio" => $input["precio"][$key],
-                        "cantidad" => $input["cantidad"][$key],
-                        "estado" => 1
-                    ]);
-                } else {
-                    $product->update(["cantidad" => $product["cantidad"] + $input["cantidad"][$key]]);
-                }
 
 
-=======
-              
                 $productoUpdate = Producto::where("producto.nombre", "=", $value)->first();
-               
-               
-                
+
+
+
                 $productoUpdate->update(["cantidad" => $productoUpdate["cantidad"] + $input["cantidad"][$key]]);
-/* 
-                $productoId = Producto::where("producto.nombre", "=", $value)->first();
- */
+
                 /* $producto = Producto::create([
                     "categoria_id" => $input["categoria_id"][$key],
                     "nombre" => $value,
@@ -129,18 +103,11 @@ class ComprasController extends Controller
                     "cantidad" => $input["cantidad"][$key],
                     "estado" => 1
                 ]);  */
-              
-/* 
-                return response()->json($productoId["idProducto"]); */
-                
->>>>>>> 1563701f5c86341491b4fb7c17c921b0525b1894
+
+
 
                 DetallesCompra::create([
-<<<<<<< HEAD
-                    "producto_id" => $product == null ? $producto->idProducto : $product["idProducto"],
-=======
                     "producto_id" => $productoUpdate["idProducto"],
->>>>>>> 1563701f5c86341491b4fb7c17c921b0525b1894
                     "compra_id" => $compra->id,
                     "cantidad" => $input["cantidad"][$key]
                 ]);
@@ -156,7 +123,7 @@ class ComprasController extends Controller
         }
     }
 
-   
+
 
     public function updateState($id, $estado)
     {
@@ -170,16 +137,16 @@ class ComprasController extends Controller
         try {
 
             if ($estado == 0) {
-                $detal = DetallesCompra::select("detalleCompra.*", "producto.idProducto as producto", "producto.cantidad as cantidad")
+                $detal = DetallesCompra::select("detalleCompra.*", "producto.idProducto as producto")
                     ->join("producto", "producto.idProducto", "=", "detalleCompra.producto_id")
                     ->where("detalleCompra.compra_id", $id)->get();
 
-                foreach ($detal as $key => $value) {
+                foreach ($detal as $value) {
                     $producto = Producto::find($value->producto);
 
+   
 
-
-                    $producto->update(["cantidad" => $value->cantidad - $producto->cantidad]);
+                    $producto->update(["cantidad" => $producto->cantidad - $value->cantidad]);
                 }
             }
 
