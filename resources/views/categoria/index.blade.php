@@ -54,7 +54,6 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Estado</th>
                     <th>Acciones</th>
 
                 </tr>
@@ -103,12 +102,6 @@
             {
                 data: 'nombre',
                 name: 'nombre'
-            },
-            {
-                data: 'estado',
-                name: 'estado',
-                orderable: false,
-                serachable: false
             },
             {
                 data: 'acciones',

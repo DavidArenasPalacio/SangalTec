@@ -36,14 +36,5 @@
         </span>
         @enderror
     </div>
-    <div class="mb-3">
-        <label for="">Cantidad: </label>
-        <input type="number" name="cantidad" class="form-control @error('cantidad') is-invalid @enderror">
-        @error('cantidad')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-    </div>
 </form>
 @endsection

@@ -125,7 +125,7 @@
         <table class="table table-bordered w-100" id="tbl_compras">
             <thead>
                 <tr>
-                    <th>empleado</th>
+                    <th>Usuario</th>
                     <th>Proveedor</th>
                     <th>Total</th>
                     <th>Fecha</th>
@@ -178,20 +178,20 @@
         },
         ajax: '/compra/listar',
         columns: [{
-                data: 'empleado',
-                name: 'empleado'
+                data: 'users',
+                name: 'users'
             },
             {
                 data: 'proveedor',
                 name: 'proveedor'
             },
             {
-                data: 'total',
-                name: 'total'
+                data: 'precioCompra',
+                name: 'precioCompra'
             },
             {
-                data: 'fecha',
-                name: 'fecha'
+                data: 'fechaRegistro',
+                name: 'fechaRegistro'
             },
             {
                 data: 'estado',

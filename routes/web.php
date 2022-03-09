@@ -55,4 +55,4 @@ Route::get('/proveedor/listar', [ProveedorController::class, 'listar']);
 Route::post('/proveedor/guardar', [ProveedorController::class, 'save']);
 Route::get('/proveedor/editar/{id}', [ProveedorController::class, 'edit']);
 Route::post('/proveedor/actualizar', [ProveedorController::class, 'update']);
-Route::get('/proveedor/cambiar/estado/{id}/{estado}', [ProductoController::class, 'updateState']);
+Route::get('/proveedor/cambiar/estado/{id}/{estado}', [ProveedorController::class, 'updateState']);

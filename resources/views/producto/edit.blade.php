@@ -39,15 +39,6 @@
         </span>
         @enderror
     </div>
-    <div class="mb-3">
-        <label for="">Cantidad: </label>
-        <input type="number" name="cantidad" class="form-control @error('cantidad') is-invalid @enderror" value="{{$producto[0]["cantidad"]}}">
-        @error('cantidad')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-    </div>
     <div class="d-flex justify-content-between">
     <a href="/producto" class="btn btn-primary">Cancelar</a>
     <button type="submit" class="btn btn-success">Modificar producto</button>

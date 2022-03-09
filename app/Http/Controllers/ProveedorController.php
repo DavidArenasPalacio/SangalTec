@@ -26,17 +26,17 @@ class ProveedorController extends Controller
 
         return DataTables::of($proveedor)
             ->editColumn('estado', function ($proveedor) {
-                return $proveedor->estado == 1 ? '<span class="btn btn-success">Activo</span>' : '<span class="btn btn-danger">Inactivo</span>';
+                return $proveedor->estado == 1 ? '<span class="bg-primary p-1 rounded">Activo</span>' : '<span class="bg-danger p-1 rounded">Inactivo</span>';
             })
             ->addColumn('acciones', function ($proveedor) {
                 $estado = '';
 
                 if ($proveedor->estado == 1) {
-                    $estado = '<a href="/compra/cambiar/estado/' . $proveedor->idProveedor . '/0" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
+                    $estado = '<a href="/proveedor/cambiar/estado/' . $proveedor->idProveedor . '/0" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
                 } else {
-                    $estado = '<a href="/compra/cambiar/estado/' . $proveedor->idProveedor . '/1" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
+                    $estado = '<a href="/proveedor/cambiar/estado/' . $proveedor->idProveedor . '/1" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
                 }
-                return '<a href="/compra/detalle/' . $proveedor->idProveedor . '" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>' . ' ' . $estado;
+                return '<a href="/proveedor/editar/'.$proveedor->idProveedor.'" class="btn btn-primary btn-sm btnEstado"><i class="fas fa-edit"></i></a>'.' '.'<a href="/proveedor/detalle/' . $proveedor->idProveedor . '" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>' . ' ' . $estado;
             })
             ->rawColumns(['estado', 'acciones'])
             ->make(true);
@@ -53,8 +53,9 @@ class ProveedorController extends Controller
 
             Proveedor::create([
                 "nombre" => $input["nombre"],
-                "telefono" => $input["telefono"],
                 "correo" => $input["correo"],
+                "telefono" => $input["telefono"],
+                "direccion" => $input["direccion"],
                 "estado" => 1
             ]);
 
@@ -71,13 +72,13 @@ class ProveedorController extends Controller
 
     public function edit($id)
     {
-        $proveedor = Proveedor::where("proveedor.idProveedor", $id)->get();
+        $proveedor = Proveedor::select("proveedor.*")->where("proveedor.idProveedor", "=", $id)->get();
 
         if ($proveedor == null) {
             return redirect("/proveedor");
         }
 
-        return  view("proveedor.index", compact("proveedor"));
+        return  view("proveedor.edit", compact("proveedor"));
     }
 
 
@@ -107,4 +108,30 @@ class ProveedorController extends Controller
             return redirect("/proveedor");
         }
     }
+
+    public function updateState($id, $estado)
+    {
+        
+
+        $proveedor = Proveedor::where("proveedor.idProveedor", "=", $id);
+
+        if ($proveedor == null) {
+          
+            return redirect("/proveedor");
+        }
+
+
+        try {
+            // example:
+
+
+            $proveedor->update(["estado" => $estado]);
+            alert()->success('Estado modificado Exitosamente');
+            return redirect("/proveedor")->with('success', 'Estado modificado satisfactoriamente!');
+        } catch (\Exception $e) {
+            alert()->warning('Error', 'Error al Modificar estado');
+            return redirect("/proveedor")->with('error', 'Error al modifcar estado');
+        }
+    }
+
 }

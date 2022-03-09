@@ -33,7 +33,7 @@ class ComprasController extends Controller
 
     public function listar()
     {
-        $compra = Compra::select("compra.*", "empleado.nombre as empleado", "proveedor.nombre as proveedor")->join("empleado", "empleado.idEmpleado", "=", "compra.idEmpleado")->join("proveedor", "proveedor.idProveedor", "=", "compra.idProveedor")->get();
+        $compra = Compra::select("compra.*", "users.name as users", "proveedor.nombre as proveedor")->join("users", "users.id", "=", "compra.usuario_id")->join("proveedor", "proveedor.idProveedor", "=", "compra.idProveedor")->get();
 
 
         return DataTables::of($compra)
@@ -69,16 +69,16 @@ class ComprasController extends Controller
     {
         $input = $requet->all();
 
-
+      
         try {
             DB::beginTransaction();
 
-
+             
 
             $compra = Compra::create([
-                "idEmpleado" => 1,
-                "idProveedor" => $input['proveedor_id'],
-                "total" =>  $input["total"],
+                "usuario_id" => 2,
+                "proveedor_id" => $input['proveedor_id'],
+                "precioCompra" =>  $input["total"],
                 "estado" => 1
             ]);
 

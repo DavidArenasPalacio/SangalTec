@@ -18,7 +18,7 @@ class ProductoController extends Controller
 
 
     public function index(){
-        $categorias = Categoria::where("categoria.estado", 1)->get();
+        $categorias = Categoria::all();
         return view("producto.index", compact("categorias"));
     }  
 
@@ -26,7 +26,6 @@ class ProductoController extends Controller
     public function listar(){
         $productos = Producto::select("producto.*", "categoria.nombre as categoria")
         ->join("categoria", "categoria.idCategoria", "=", "producto.categoria_id")
-        ->where("categoria.estado", 1)
         ->get();
         return DataTables::of($productos)
         ->editColumn('estado', function($producto){
@@ -61,8 +60,7 @@ class ProductoController extends Controller
         try {
             Producto::create([   
                 "categoria_id" => $input["categoria_id"],
-                "nombre" => $input["nombre"],
-                "cantidad" => $input["cantidad"],  
+                "nombre" => $input["nombre"], 
                 "precio" => $input["precio"],    
                 "estado" => 1
             ]);
@@ -78,7 +76,7 @@ class ProductoController extends Controller
     public function edit($id)
     {
         $producto = Producto::select("producto.*")->where("producto.idProducto", "=", $id)->get();
-        $categorias = Categoria::where("categoria.estado", 1)->get();
+        $categorias = Categoria::all();
         /* return response()->json($producto[0]["idProducto"]); */
         if ($producto == null) {
             
@@ -112,7 +110,6 @@ class ProductoController extends Controller
             $producto->update([
                 "categoria_id" => $input["categoria_id"],
                 "nombre" => $input["nombre"],
-                "cantidad" => $input["cantidad"],
                 "precio" => $input["precio"]
             ]);
 

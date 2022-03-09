@@ -24,22 +24,12 @@ class CategoriaController extends Controller
 
         //return response()->json($categoria);
         return DataTables::of($categoria)
-        ->editColumn('estado', function($categoria){
-            return $categoria->estado == 1 ? '<span class="bg-primary p-1 rounded">Activo</span>' : '<span class="bg-danger p-1 rounded">Inactivo</span>';
-        })
         ->addColumn('acciones', function($categoria) {
-            $estado = ''; 
-              
-            if($categoria->estado == 1) {
-                $estado = '<a href="/categoria/cambiar/estado/'.$categoria->idCategoria.'/0" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
-            }
-            else {
-                $estado = '<a href="/categoria/cambiar/estado/'.$categoria->idCategoria.'/1" class="btn btn-primary btn-sm btnEstado"><i class="fas fa-unlock"></i></a>';
-            }
+            
 
-            return '<a href="/categoria/editar/'.$categoria->idCategoria.'" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>'.' '. '<a href="/categoria/eliminar/'.$categoria->idCategoria.'" class="btn btn-danger btn-sm">Eliminar</a>' .' '.$estado;
+            return '<a href="/categoria/editar/'.$categoria->idCategoria.'" class="btn btn-success btn-sm"><i class="fas fa-edit""></i></a>';
         })
-        ->rawColumns(['estado','acciones'])
+        ->rawColumns(['acciones'])
         ->make(true);
     }
 
@@ -51,7 +41,6 @@ class CategoriaController extends Controller
 
             Categoria::create([
                 "nombre"=> $input["nombre"],
-                "estado"=>1
             ]);
 
             alert()->success('Categoría creado Exitosamente');
@@ -107,54 +96,7 @@ class CategoriaController extends Controller
         }
     }
 
-    public function updateState($id, $estado)
-    {
-        
-
-        $categoria = Categoria::where("categoria.idCategoria", "=", $id);
-        
-     
-        if ($categoria == null) {
-          
-            return redirect("/categoria");
-        }
-
-
-        try {
-            // example:
-
-
-            $categoria->update(["estado" => $estado]);
-            alert()->success('Estado modificado Exitosamente');
-        
-            return redirect("/categoria");
-        } catch (\Exception $e) {
-          
-            alert()->warning('Error', 'Error al modificar estado');;
-            return redirect("/categoria");
-        }
-    }
 
 
 
-    public function delete($id){
-        $categoria = Categoria::where("categoria.idCategoria",$id); 
-
-        if($categoria == null) {
-            return redirect("/categoria");
-        }
-
-
-        try {
-            
-            $categoria->delete($categoria);
-            alert()->success('Categoŕia eliminado correctamente');
-
-            return redirect("/categoria");
-        } catch (\Exception $e) {
-            alert()->warning('error','Error al eliminar categoría');
-
-            return redirect("/categoria");
-        }
-    }
 }

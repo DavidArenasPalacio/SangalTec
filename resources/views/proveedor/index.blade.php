@@ -6,10 +6,10 @@
 <div class="card">
     <div class="card-header">
         <div class="d-flex justify-content-between p-2">
-            <h3>Gestión Producto</h3>
+            <h3>Gestión Proveedor</h3>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">
-                Crear Producto
+                Crear Proveedor
             </button>
         </div>
         <!-- Modal -->
@@ -18,7 +18,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
 
-                        <h4 class="modal-title">Crear Producto</h4>
+                        <h4 class="modal-title">Crear Proveedor</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -36,30 +36,33 @@
                                 </span>
                                 @enderror
                             </div>
-                            <div class="mb3">
-                                <label for="">Categoría: </label>
-                                <select name="categoria_id" class="form-control @error('categoria_id') is-invalid @enderror" id="">
-                                    <option value="">------Seleccione-----</option>
-                                    @foreach($categorias as $value)
-                                    <option value="{{ $value->idCategoria }}">{{ $value->nombre }}</option>
-                                    @endforeach
-                                </select>
-                                @error('categoria_id')
+                            <div class="mb-3">
+                                <label for="">Correo: </label>
+                                <input type="number" name="correo" class="form-control @error('correo') is-invalid @enderror">
+                                @error('correo')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="">Precio: </label>
-                                <input type="number" name="precio" class="form-control @error('precio') is-invalid @enderror">
-                                @error('precio')
+                                <label for="">Teléfono: </label>
+                                <input type="tel" name="telefono" class="form-control @error('telefono') is-invalid @enderror">
+                                @error('telefono')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
                             </div>
-
+                            <div class="mb-3">
+                                <label for="">Dirección: </label>
+                                <input type="tel" name="text" class="form-control @error('direccion') is-invalid @enderror">
+                                @error('direccion')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
                             <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar</button>
                         </form>
                     </div>
@@ -71,14 +74,17 @@
 
 
 
+  
+
     <div class="card-body">
 
-        <table id="tbl_productos" class="table table-bordered">
+        <table id="tbl_proveedor" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Categoría</th>
-                    <th>Precio</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
                     <th>Estado</th>
                     <th>Acciones</th>
 
@@ -96,7 +102,7 @@
 @section('script')
 
 <script>
-    $('#tbl_productos').DataTable({
+    $('#tbl_proveedor').DataTable({
         processing: true,
         serverSide: true,
         "language": {
@@ -123,18 +129,22 @@
                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
             }
         },
-        ajax: '/producto/listar',
+        ajax: '/proveedor/listar',
         columns: [{
                 data: 'nombre',
                 name: 'nombre'
             },
             {
-                data: 'categoria',
-                name: 'categoria'
+                data: 'correo',
+                name: 'correo'
             },
             {
-                data: 'precio',
-                name: 'precio'
+                data: 'telefono',
+                name: 'telefono'
+            },
+            {
+                data: 'direccion',
+                name: 'direccion'
             },
             {
                 data: 'estado',
