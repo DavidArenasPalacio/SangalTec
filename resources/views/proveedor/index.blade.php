@@ -25,7 +25,7 @@
 
                     </div>
                     <div class="modal-body">
-                        <form action="/producto/guardar" method="post" id="form">
+                        <form action="/proveedor/guardar" method="post" id="form">
                             @csrf
                             <div class="mb-3">
                                 <label for="">Nombre:</label>
@@ -38,7 +38,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="">Correo: </label>
-                                <input type="number" name="correo" class="form-control @error('correo') is-invalid @enderror">
+                                <input type="email" name="correo" class="form-control @error('correo') is-invalid @enderror">
                                 @error('correo')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -47,7 +47,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="">Teléfono: </label>
-                                <input type="tel" name="telefono" class="form-control @error('telefono') is-invalid @enderror">
+                                <input type="text" name="telefono" class="form-control @error('telefono') is-invalid @enderror">
                                 @error('telefono')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -56,7 +56,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="">Dirección: </label>
-                                <input type="tel" name="text" class="form-control @error('direccion') is-invalid @enderror">
+                                <input type="text" name="direccion" class="form-control @error('direccion') is-invalid @enderror">
                                 @error('direccion')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

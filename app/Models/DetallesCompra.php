@@ -9,7 +9,7 @@ class DetallesCompra extends Model
 {
     protected $table = 'detalleCompra'; 
     
-    protected $fillable = ['producto_id', 'compra_id', 'cantidad']; 
+    protected $fillable = ['compra_id', 'producto_id', 'cantidad']; 
 
 
     public $timestamps = false;

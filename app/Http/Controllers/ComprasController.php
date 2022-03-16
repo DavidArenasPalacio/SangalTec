@@ -33,12 +33,12 @@ class ComprasController extends Controller
 
     public function listar()
     {
-        $compra = Compra::select("compra.*", "users.name as users", "proveedor.nombre as proveedor")->join("users", "users.id", "=", "compra.usuario_id")->join("proveedor", "proveedor.idProveedor", "=", "compra.idProveedor")->get();
+        $compra = Compra::select("compra.*", "users.name as users", "proveedor.nombre as proveedor")->join("users", "users.id", "=", "compra.usuario_id")->join("proveedor", "proveedor.idProveedor", "=", "compra.proveedor_id")->get();
 
 
         return DataTables::of($compra)
             ->editColumn('estado', function ($compra) {
-                return $compra->estado == 1 ? '<span class="bg-primary p-1 rounded">Activo</span>' : '<span class="bg-danger p-1 rounded">Inactivo</span>';
+                return $compra->estado == 1 ? '<span class="bg-primary p-1 rounded">Activo</span>' : '<span class="bg-danger p-1 rounded">Anulado</span>';
             })
             ->addColumn('acciones', function ($compra) {
                 $estado = '';
@@ -46,7 +46,7 @@ class ComprasController extends Controller
                 if ($compra->estado == 1) {
                     $estado = '<a href="/compra/cambiar/estado/' . $compra->idCompra . '/0" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
                 } else {
-                    $estado = '<a href="/compra/cambiar/estado/' . $compra->idCompra . '/1" class="btn btn-primary btn-sm btnEstado"><i class="fas fa-unlock"></i></a>';
+                    $estado = '<a  class="btn btn-primary btn-sm btnEstado"><i class="fas fa-unlock"></i></a>';
                 }
 
                 return '<a href="/compra/detalle/' . $compra->idCompra . '" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>' . ' ' . $estado;
@@ -58,7 +58,7 @@ class ComprasController extends Controller
 
     public function detalle($id)
     {
-        $detal = DetallesCompra::select("detalleCompra.*", "producto.nombre as producto", "producto.cantidad as productoCantidad")
+        $detal = DetallesCompra::select("detalleCompra.*", "producto.nombre as producto")
             ->join("producto", "producto.idProducto", "=", "detalleCompra.producto_id")
             ->where("detalleCompra.compra_id", $id)->get();
 
@@ -90,12 +90,12 @@ class ComprasController extends Controller
             foreach ($input["nombreProducto"] as $key => $value) {
 
 
-                $productoUpdate = Producto::where("producto.nombre", "=", $value)->first();
+                $producto = Producto::where("producto.nombre", "=", $value)->first();
 
 
 
-                $productoUpdate->update(["cantidad" => $productoUpdate["cantidad"] + $input["cantidad"][$key]]);
-
+/*                 $productoUpdate->update(["cantidad" => $productoUpdate["cantidad"] + $input["cantidad"][$key]]);
+ */
                 /* $producto = Producto::create([
                     "categoria_id" => $input["categoria_id"][$key],
                     "nombre" => $value,
@@ -107,7 +107,7 @@ class ComprasController extends Controller
 
 
                 DetallesCompra::create([
-                    "producto_id" => $productoUpdate["idProducto"],
+                    "producto_id" => $producto ["idProducto"],
                     "compra_id" => $compra->id,
                     "cantidad" => $input["cantidad"][$key]
                 ]);
@@ -141,13 +141,13 @@ class ComprasController extends Controller
                     ->join("producto", "producto.idProducto", "=", "detalleCompra.producto_id")
                     ->where("detalleCompra.compra_id", $id)->get();
 
-                foreach ($detal as $value) {
+                /* foreach ($detal as $value) {
                     $producto = Producto::find($value->producto);
 
    
 
                     $producto->update(["cantidad" => $producto->cantidad - $value->cantidad]);
-                }
+                } */
             }
 
 

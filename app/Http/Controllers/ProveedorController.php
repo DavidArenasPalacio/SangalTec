@@ -49,6 +49,8 @@ class ProveedorController extends Controller
     {
         $input =  $request->all();
 
+     
+
         try {
 
             Proveedor::create([
@@ -63,7 +65,7 @@ class ProveedorController extends Controller
             alert()->success('Proveedor creado Exitosamente');
             return redirect("/proveedor");
         } catch (\Exception $e) {
-            alert()->warning('error', 'Error al crar proveedor');
+            alert()->warning('error', 'Error al crear proveedor');
             return redirect("/proveedor");
         }
     }

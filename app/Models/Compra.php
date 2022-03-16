@@ -9,7 +9,7 @@ class Compra extends Model
 {
     protected $table  = 'compra';
 
-    protected $fillable = ['idEmpleado', 'idProveedor', 'total','estado'];
+    protected $fillable = ['usuario_id', 'proveedor_id', 'precioCompra','estado'];
 
     public $timestamps = false;
 } 

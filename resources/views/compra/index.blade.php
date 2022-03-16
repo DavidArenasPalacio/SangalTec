@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="">Cantidad: </label>
-                                        <input type="number" class="form-control @error('cantidad') is-invalid @enderror" id="cantidad">
+                                        <input type="number" name="cantidad" class="form-control @error('cantidad') is-invalid @enderror" id="cantidad">
                                         @error('cantidad')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -129,7 +129,7 @@
                     <th>Proveedor</th>
                     <th>Total</th>
                     <th>Fecha</th>
-                    <th>Estado</th>
+                    <th>Anular</th>
                     <th>Acciones</th>
 
                 </tr>
