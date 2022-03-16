@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RolController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ComprasController;
@@ -25,6 +26,12 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/rol', [RolController::class, 'index']);
+Route::get('/rol/listar', [RolController::class, 'listar']);
+Route::post('/rol/guardar', [RolController::class, 'save']);
+Route::get('/rol/editar/{id}', [RolController::class, 'edit']);
+Route::post('/rol/actualizar', [RolController::class, 'update']);
 
 
 Route::get('/categoria', [CategoriaController::class, 'index']);

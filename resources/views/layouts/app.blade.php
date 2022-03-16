@@ -109,7 +109,29 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-    
+               <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Usuarios
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/rol" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Gestión roles</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/rol" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Gestión usuarios</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
