@@ -7,6 +7,7 @@ use App\Models\Proveedor;
 use App\Models\Categoria;
 use App\Models\DetallesCompra;
 use App\Models\Compra;
+use App\Models\ControlExistencia;
 use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,11 +22,7 @@ class ComprasController extends Controller
     public function index()
     {
         $proveedor = Proveedor::all();
-
         $productos = Producto::all();
-
-
-
 
         return view("compra.index", compact("proveedor", "productos"));
     }
@@ -76,7 +73,7 @@ class ComprasController extends Controller
              
 
             $compra = Compra::create([
-                "usuario_id" => 2,
+                "usuario_id" => 8,
                 "proveedor_id" => $input['proveedor_id'],
                 "precioCompra" =>  $input["total"],
                 "estado" => 1
@@ -109,6 +106,11 @@ class ComprasController extends Controller
                 DetallesCompra::create([
                     "producto_id" => $producto ["idProducto"],
                     "compra_id" => $compra->id,
+                    "cantidad" => $input["cantidad"][$key]
+                ]);
+
+                ControlExistencia::create([
+                    "producto_id" => $producto ["idProducto"],
                     "cantidad" => $input["cantidad"][$key]
                 ]);
             }
