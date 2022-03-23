@@ -6,6 +6,7 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ComprasController;
+use App\Http\Controllers\ControlExistenciaController;
 use App\Http\Controllers\ProveedorController;
 
 /*
@@ -56,6 +57,8 @@ Route::post('/compra/guardar', [ComprasController::class, 'save']);
 Route::get('/compra/detalle/{id}', [ComprasController::class, 'detalle']);
 Route::get('/compra/cambiar/estado/{idCompra}/{estado}', [ComprasController::class, 'updateState']);
 
+Route::get('/controlExistencia', [ControlExistenciaController::class, 'index']);
+Route::get('/controlExistencia/listar', [ControlExistenciaController::class, 'listar']);
 
 Route::get('/proveedor', [ProveedorController::class, 'index']);
 Route::get('/proveedor/listar', [ProveedorController::class, 'listar']);
