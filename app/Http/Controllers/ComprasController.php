@@ -35,7 +35,7 @@ class ComprasController extends Controller
 
         return DataTables::of($compra)
             ->editColumn('estado', function ($compra) {
-                return $compra->estado == 1 ? '<span class="bg-primary p-1 rounded">Activo</span>' : '<span class="bg-danger p-1 rounded">Anulado</span>';
+                return $compra->estado == 1 ? '<span class="bg-primary p-1 rounded">Anular</span>' : '<span class="bg-danger p-1 rounded">Anulado</span>';
             })
             ->addColumn('acciones', function ($compra) {
                 $estado = '';
@@ -72,12 +72,12 @@ class ComprasController extends Controller
 
              
 
-            $compra = Compra::create([
+           $compra = Compra::create([
                 "usuario_id" => 8,
                 "proveedor_id" => $input['proveedor_id'],
                 "precioCompra" =>  $input["total"],
                 "estado" => 1
-            ]);
+            ]); 
 
 
 
@@ -101,7 +101,23 @@ class ComprasController extends Controller
                     "estado" => 1
                 ]);  */
 
-
+                
+              /*   $controlExistencia = ControlExistencia::select("controlexistencia.*","producto.idProducto as producto")
+                ->join("producto", "producto.idProducto", "=", "controlexistencia.producto_id")
+                ->where( "controlexistencia.producto_id", $producto ["idProducto"])
+                ->first();
+                    
+                if($controlExistencia != null){
+                    $controlExistencia->update(["cantidad" => $controlExistencia["cantidad"] + 10]);
+                }
+                else {
+                   
+                } */
+                ControlExistencia::create([
+                    "producto_id" =>  $producto ["idProducto"],
+                    "cantidad" => $input["cantidad"][$key]
+                ]);
+               
 
                 DetallesCompra::create([
                     "producto_id" => $producto ["idProducto"],
@@ -109,10 +125,7 @@ class ComprasController extends Controller
                     "cantidad" => $input["cantidad"][$key]
                 ]);
 
-                ControlExistencia::create([
-                    "producto_id" => $producto ["idProducto"],
-                    "cantidad" => $input["cantidad"][$key]
-                ]);
+        
             }
 
             DB::commit();
