@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Rol;
+use App\Models\User;
+use Yajra\Datatables\Datatables; 
 class UserController extends Controller
 {
     public function __construct()
@@ -13,15 +15,16 @@ class UserController extends Controller
 
 
     public function index(){
-        $users = Users::all();
-        return view("user.index", compact("users"));
+        $roles = Rol::all();
+        return view("usuario.index", compact("roles"));
     }  
 
 
     public function listar(){
-        $users = Users::select("users.*", "users.nombre as users")
-        ->join("rol", "rol.idRol", "=", "rol.rol_id")
+        $users = User::select("users.id","users.name as nombre","users.documento","users.telefono","users.direccion", "users.email","users.estado","rol.nombre as rol")
+        ->join("rol", "rol.idRol", "=", "users.rol_id")
         ->get();
+       //  return response()->json($users);
         return DataTables::of($users)
         ->editColumn('estado', function($users){
             return $users->estado == 1 ? '<span class="bg-primary p-1 rounded">Activo</span>' : '<span class="bg-danger p-1 rounded">Inactivo</span>';
@@ -30,13 +33,13 @@ class UserController extends Controller
             $estado = ''; 
               
             if($users->estado == 1) {
-                $estado = '<a href="/users/cambiar/estado/'.$users->id.'/0" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
+                $estado = '<a href="/usuario/cambiar/estado/'.$users->id.'/0" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
             }
             else {
-                $estado = '<a href="/users/cambiar/estado/'.$users->id.'/1" class="btn btn-primary btn-sm btnEstado"><i class="fas fa-unlock"></i></a>';
+                $estado = '<a href="/usuario/cambiar/estado/'.$users->id.'/1" class="btn btn-primary btn-sm btnEstado"><i class="fas fa-unlock"></i></a>';
             }
             
-            return '<a href="/users/editar/'.$users->id.'" class="btn btn-success btn-sm btnEstado"><i class="fas fa-edit"></i></a>'.' '.$estado;
+            return '<a href="/usuario/editar/'.$users->id.'" class="btn btn-success btn-sm btnEstado"><i class="fas fa-edit"></i></a>'.' '.$estado;
         })
         ->rawColumns(['estado', 'acciones'])
         ->make(true);
@@ -49,11 +52,11 @@ class UserController extends Controller
 
     public function save(Request $request)
     {
-        $request->validate(Users::$rules);
+        $request->validate(User::$rules);
 
         $input = $request->all();
         try {
-            Users::create([   
+            User::create([   
                 "rol_id" => $input["rol_id"],
                 "name" => $input["name"], 
                 "documento" => $input["documento"], 
@@ -123,11 +126,11 @@ class UserController extends Controller
     {
         
 
-        $producto = Producto::where("producto.idProducto", "=", $id);
-
-        if ($producto == null) {
+        $user = User::where("users.id", "=", $id);
+        
+        if ($user == null) {
           
-            return redirect("/producto");
+            return redirect("/usuario");
         }
 
 
@@ -135,12 +138,12 @@ class UserController extends Controller
             // example:
 
 
-            $producto->update(["estado" => $estado]);
+            $user->update(["estado" => $estado]);
             alert()->success('Estado modificado Exitosamente');
-            return redirect("/producto")->with('success', 'Estado modificado satisfactoriamente!');
+            return redirect("/usuario")->with('success', 'Estado modificado satisfactoriamente!');
         } catch (\Exception $e) {
             alert()->warning('Error', 'Error al Modificar estado');
-            return redirect("/producto")->with('error', 'Error al modifcar estado');
+            return redirect("/usuario")->with('error', 'Error al modifcar estado');
         }
     }
 }

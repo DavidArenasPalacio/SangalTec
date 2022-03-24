@@ -73,7 +73,7 @@ class ComprasController extends Controller
              
 
            $compra = Compra::create([
-                "usuario_id" => 8,
+                "usuario_id" => auth()->user()->id,
                 "proveedor_id" => $input['proveedor_id'],
                 "precioCompra" =>  $input["total"],
                 "estado" => 1

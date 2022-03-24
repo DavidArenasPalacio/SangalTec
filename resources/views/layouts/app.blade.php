@@ -125,7 +125,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/rol" class="nav-link">
+                <a href="/usuario" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Gestión usuarios</p>
                 </a>

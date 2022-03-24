@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ComprasController;
@@ -34,6 +35,14 @@ Route::post('/rol/guardar', [RolController::class, 'save']);
 Route::get('/rol/editar/{id}', [RolController::class, 'edit']);
 Route::post('/rol/actualizar', [RolController::class, 'update']);
 
+Route::get('/usuario', [UserController::class, 'index']);
+Route::get('/usuario/listar', [UserController::class, 'listar']);
+Route::post('/usuario/guardar', [UserController::class, 'save']);
+Route::get('/usuario/editar/{id}', [UserController::class, 'edit']);
+Route::post('/usuario/actualizar', [UserController::class, 'update']);
+Route::get('/usuario/cambiar/estado/{idUsuario}/{estado}', [UserController::class, 'updateState']);
+
+
 
 Route::get('/categoria', [CategoriaController::class, 'index']);
 Route::get('/categoria/listar', [CategoriaController::class, 'listar']);
@@ -49,6 +58,8 @@ Route::post('/producto/guardar', [ProductoController::class, 'save']);
 Route::get('/producto/editar/{id}', [ProductoController::class, 'edit']);
 Route::post('/producto/actualizar', [ProductoController::class, 'update']);
 Route::get('/producto/cambiar/estado/{idProducto}/{estado}', [ProductoController::class, 'updateState']);
+
+
 
 
 Route::get('/compra', [ComprasController::class, 'index']);
