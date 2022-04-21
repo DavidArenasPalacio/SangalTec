@@ -7,10 +7,10 @@
     <h2 class="text-center">Modificar Producto</h2>
 <form action="/producto/actualizar" method="post">
     @csrf
-    <input type="hidden" name="idProducto" value="{{$producto[0]["idProducto"]}}">
+    <input type="hidden" name="id" value="{{$producto->id}}">
     <div class="mb-3">
         <label for="">Nombre</label>
-        <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" value="{{$producto[0]["nombre"]}}">
+        <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" value="{{$producto->Nombre_Producto}}">
         @error('nombre')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
@@ -21,7 +21,7 @@
         <label for="">Categoría: </label>
         <select name="categoria_id" class="form-control " id="">
             @foreach($categorias as $key => $value)
-            <option {{$value->idCategoria == $producto[0]["categoria_id"] ? 'selected' : ''}}  value="{{ $value->idCategoria }}">{{ $value->nombre }}</option>
+            <option {{$value->id == $producto->categoria_id ? 'selected' : ''}}  value="{{ $value->id }}">{{ $value->Nombre_Categoria }}</option>
             @endforeach
         </select>
         @error('categoria_id')
@@ -32,7 +32,7 @@
     </div>
     <div class="mb-3">
         <label for="">Precio: </label>
-        <input type="number" name="precio" class="form-control @error('precio') is-invalid @enderror" value="{{$producto[0]["precio"]}}">
+        <input type="number" name="precio" class="form-control @error('precio') is-invalid @enderror" value="{{$producto->Precio}}">
         @error('precio')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>

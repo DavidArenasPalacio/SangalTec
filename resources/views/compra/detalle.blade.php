@@ -12,14 +12,17 @@
             <thead class="table-light">
                 <tr>
                     <th>Producto</th>
-                    <th>Cantidad Compra</th>
+                    <th>Cantidad</th>
+                    <th>SubTotal</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($detal as $value)
                 <tr>
                     <td>{{$value->producto}}</td>
-                    <td>{{$value->cantidad}}</td>
+                   <td>{{$value->Cantidad}}</td>
+                    <td>{{$value->Sub_total}}</td>
+                    
                 </tr>
 
                 @endforeach

@@ -11,11 +11,11 @@ class Rol extends Model
     protected $table = 'rol';
 
 
-    protected $fillable = ['nombre'];
+    protected $fillable = ['Nombre_Rol'];
 
 
     public static $rules = [ 
-        'nombre' => 'required',
+        'Nombre_Rol' => 'required',
     ];
 
     public $timestamps = false;

@@ -36,7 +36,7 @@
                                         <select class="form-control @error('proveedor_id') is-invalid @enderror" id="proveedor">
                                             <option value="">------Seleccione-----</option>
                                             @foreach($proveedor as $value)
-                                            <option value="{{ $value->idProveedor }}">{{ $value->nombre }}</option>
+                                            <option value="{{ $value->id }}">{{ $value->Nombre_Proveedor }}</option>
                                             @endforeach
                                         </select>
                                         @error('proveedor_id')
@@ -51,7 +51,7 @@
                                         <select class="form-control @error('idProducto') is-invalid @enderror" id="nombreProducto" onchange="precioProducto()">
                                             <option value="">------Seleccione-----</option>
                                             @foreach($productos as $value)
-                                            <option value="{{ $value->idProducto }}"  precio="{{ $value->precio }}" >{{ $value->nombre }}</option>
+                                            <option value="{{ $value->id }}"  precio="{{ $value->Precio }}" >{{ $value->Nombre_Producto }}</option>
                                             @endforeach
                                         </select>
                                         @error('idProducto')
@@ -125,13 +125,12 @@
         <table class="table table-bordered w-100" id="tbl_compras">
             <thead>
                 <tr>
-                    <th>Usuario</th>
-                    <th>Proveedor</th>
-                    <th>Total</th>
-                    <th>Fecha</th>
-                    <th>Anular</th>
-                    <th>Acciones</th>
-
+                    <th>Usuario Que Realizo La Compra</th>
+                    <th>Nombre Del Proveedor</th> 
+                    <th>Precio Total</th>                      
+                    <th>Fecha De La Compra</th>
+                    <th>Anular Compra</th>
+                    <th>Detalle</th>
                 </tr>
             </thead>
             <tbody>
@@ -186,12 +185,12 @@
                 name: 'proveedor'
             },
             {
-                data: 'precioCompra',
-                name: 'precioCompra'
+                data: 'Precio_total',
+                name: 'Precio_total'
             },
             {
-                data: 'fechaRegistro',
-                name: 'fechaRegistro'
+                data: 'created_at',
+                name: 'created_at'
             },
             {
                 data: 'estado',

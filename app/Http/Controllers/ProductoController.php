@@ -24,24 +24,25 @@ class ProductoController extends Controller
 
 
     public function listar(){
-        $productos = Producto::select("producto.*", "categoria.nombre as categoria")
-        ->join("categoria", "categoria.idCategoria", "=", "producto.categoria_id")
+        $producto = Producto::select("productos.*", "categoria.Nombre_Categoria as categoria")
+        ->join("categoria", "categoria.id", "=", "productos.categoria_id")
         ->get();
-        return DataTables::of($productos)
+       // return response()->json($producto);
+        return DataTables::of($producto)
         ->editColumn('estado', function($producto){
-            return $producto->estado == 1 ? '<span class="bg-primary p-1 rounded">Activo</span>' : '<span class="bg-danger p-1 rounded">Inactivo</span>';
+            return $producto->Estado == 1 ? '<span class="bg-primary p-1 rounded">Activo</span>' : '<span class="bg-danger p-1 rounded">Inactivo</span>';
         })
         ->addColumn('acciones', function($producto) {
             $estado = ''; 
               
-            if($producto->estado == 1) {
-                $estado = '<a href="/producto/cambiar/estado/'.$producto->idProducto.'/0" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
+            if($producto->Estado == 1) {
+                $estado = '<a href="/producto/cambiar/estado/'.$producto->id.'/0" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
             }
             else {
-                $estado = '<a href="/producto/cambiar/estado/'.$producto->idProducto.'/1" class="btn btn-primary btn-sm btnEstado"><i class="fas fa-unlock"></i></a>';
+                $estado = '<a href="/producto/cambiar/estado/'.$producto->id.'/1" class="btn btn-primary btn-sm btnEstado"><i class="fas fa-unlock"></i></a>';
             }
             
-            return '<a href="/producto/editar/'.$producto->idProducto.'" class="btn btn-success btn-sm btnEstado"><i class="fas fa-edit"></i></a>'.' '.$estado;
+            return '<a href="/producto/editar/'.$producto->id.'" class="btn btn-success btn-sm btnEstado"><i class="fas fa-edit"></i></a>'.' '.$estado;
         })
         ->rawColumns(['estado', 'acciones'])
         ->make(true);
@@ -54,15 +55,17 @@ class ProductoController extends Controller
 
     public function save(Request $request)
     {
-        $request->validate(Producto::$rules);
+        //$request->validate(Producto::$rules);
 
         $input = $request->all();
+        //return response()->json($request);
         try {
             Producto::create([   
                 "categoria_id" => $input["categoria_id"],
-                "nombre" => $input["nombre"], 
-                "precio" => $input["precio"],    
-                "estado" => 1
+                "Nombre_Producto" => $input["nombre"], 
+                "Precio" => $input["precio"],    
+                "Cantidad" => $input["cantidad"], 
+                "Estado" => 1
             ]);
             alert()->success('Producto creado Exitosamente');
             return redirect("/producto");
@@ -75,17 +78,13 @@ class ProductoController extends Controller
 
     public function edit($id)
     {
-        $producto = Producto::select("producto.*")->where("producto.idProducto", "=", $id)->get();
+        $producto = Producto::where("productos.id","=",$id)->first();
         $categorias = Categoria::all();
-        /* return response()->json($producto[0]["idProducto"]); */
+        //return response()->json($producto); 
         if ($producto == null) {
             
             return redirect("/producto");
         }
-
-     
-
-
 
         return view("producto.edit", compact("producto", "categorias"));
     }
@@ -93,13 +92,12 @@ class ProductoController extends Controller
     public function update(Request $request)
     {
 
-       $request->validate(Producto::$rules);
+       //$request->validate(Producto::$rules);
 
         $input = $request->all();
-
+        //return dd($request);
         try {
-            $producto = Producto::where("producto.idProducto", "=", $input["idProducto"]);
-
+            $producto = Producto::where("productos.id", "=", $input["id"]);
             
 
             if ($producto == null) {
@@ -107,10 +105,11 @@ class ProductoController extends Controller
                 return redirect("/producto")->with('error', 'Error al modificar producto');
             }
 
+            
             $producto->update([
                 "categoria_id" => $input["categoria_id"],
-                "nombre" => $input["nombre"],
-                "precio" => $input["precio"]
+                "Nombre_Producto" => $input["nombre"],
+                "Precio" => $input["precio"]
             ]);
 
           
@@ -126,7 +125,7 @@ class ProductoController extends Controller
     {
         
 
-        $producto = Producto::where("producto.idProducto", "=", $id);
+        $producto = Producto::where("productos.id", "=", $id);
 
         if ($producto == null) {
           
@@ -138,7 +137,7 @@ class ProductoController extends Controller
             // example:
 
 
-            $producto->update(["estado" => $estado]);
+            $producto->update(["Estado" => $estado]);
             alert()->success('Estado modificado Exitosamente');
             return redirect("/producto")->with('success', 'Estado modificado satisfactoriamente!');
         } catch (\Exception $e) {

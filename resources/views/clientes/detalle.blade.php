@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('titulo')
-    Detalles Del Proveedor
+    Detalles Del Cliente
 @endsection 
 
 @section('content')
@@ -15,10 +15,10 @@
                 <thead>
                     <tr>
                         
-                            <th>Nombre</th>
-                            <th>Correo</th>
-                            <th>Teléfono</th>
-                            <th>Dirección</th>
+                        <th>Nombre Del Cliente</th>
+                        <th>Documento</th>
+                        <th>Telefono Del Cliente</th>
+                        <th>Direccion Del Cliente</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,17 +26,17 @@
                                        
                     <tr>
                         
-                        <td>{{$proveedor->Nombre_Proveedor}}</td>
-                       <td>{{$proveedor->Correo_Proveedor}}</td>
-                       <td>{{$proveedor->Telefono_Proveedor}}</td>
-                       <td>{{$proveedor->Direccion_Proveedor}}</td>
+                        <td>{{$cliente->Nombre_Cliente}}</td>
+                       <td>{{$cliente->Documento_Cliente}}</td>
+                       <td>{{$cliente->Telefono_Cliente}}</td>
+                       <td>{{$cliente->Direccion_Cliente}}</td>
                    </tr> 
                           
                 </tbody>                
             </table>
     </div>
     
-        <a href="/proveedor" class="btn btn-primary col-12">Volver</a>
+        <a href="/clientes" class="btn btn-primary col-12">Volver</a>
     
 </div>
 @endsection

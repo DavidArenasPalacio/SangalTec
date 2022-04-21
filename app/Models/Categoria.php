@@ -11,12 +11,11 @@ class Categoria extends Model
     protected $table = 'categoria';
 
 
-    protected $fillable = ['nombre', 'estado'];
+    protected $fillable = ['Nombre_Categoria'];
 
 
     public static $rules = [ 
-        'nombre' => 'required',
-        'estado' => 'in:1,0'
+        'Nombre_Categoria' => 'required',
     ];
 
     public $timestamps = false;

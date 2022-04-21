@@ -9,7 +9,7 @@ class Proveedor extends Model
 {
     protected $table = 'proveedor'; 
     
-    protected $fillable = ['nombre', 'correo', 'telefono', 'direccion', 'estado'];
+    protected $fillable = ['Nombre_Proveedor', 'Correo_Proveedor', 'Telefono_Proveedor', 'Direccion_Proveedor', 'Estado'];
     
     public $timestamps = false;
 }

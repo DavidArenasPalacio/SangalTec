@@ -41,7 +41,7 @@
                                 <select name="categoria_id" class="form-control @error('categoria_id') is-invalid @enderror" id="">
                                     <option value="">------Seleccione-----</option>
                                     @foreach($categorias as $value)
-                                    <option value="{{ $value->idCategoria }}">{{ $value->nombre }}</option>
+                                    <option value="{{ $value->id }}">{{ $value->Nombre_Categoria }}</option>
                                     @endforeach
                                 </select>
                                 @error('categoria_id')
@@ -59,7 +59,15 @@
                                 </span>
                                 @enderror
                             </div>
-
+                            <div class="mb-3">
+                                <label for="">Cantidad: </label>
+                                <input type="number" name="cantidad" class="form-control @error('cantidad') is-invalid @enderror">
+                                @error('cantidad')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
                             <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar</button>
                         </form>
                     </div>
@@ -125,16 +133,16 @@
         },
         ajax: '/producto/listar',
         columns: [{
-                data: 'nombre',
-                name: 'nombre'
+                data: 'Nombre_Producto',
+                name: 'Nombre_Producto'
             },
             {
                 data: 'categoria',
                 name: 'categoria'
             },
             {
-                data: 'precio',
-                name: 'precio'
+                data: 'Precio',
+                name: 'Precio'
             },
             {
                 data: 'estado',

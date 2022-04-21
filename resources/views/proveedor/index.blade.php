@@ -131,20 +131,20 @@
         },
         ajax: '/proveedor/listar',
         columns: [{
-                data: 'nombre',
-                name: 'nombre'
+                data: 'Nombre_Proveedor',
+                name: 'Nombre_Proveedor'
             },
             {
-                data: 'correo',
-                name: 'correo'
+                data: 'Correo_Proveedor',
+                name: 'Correo_Proveedor'
             },
             {
-                data: 'telefono',
-                name: 'telefono'
+                data: 'Telefono_Proveedor',
+                name: 'Telefono_Proveedor'
             },
             {
-                data: 'direccion',
-                name: 'direccion'
+                data: 'Direccion_Proveedor',
+                name: 'Direccion_Proveedor'
             },
             {
                 data: 'estado',

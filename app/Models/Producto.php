@@ -8,20 +8,18 @@ Use Alert;
 
 class Producto extends Model
 {
-    protected $table = 'producto'; 
+    protected $table = 'productos'; 
     
-    protected $fillable = ['categoria_id', 'nombre', 'cantidad', 'precio', 'estado']; 
+    protected $fillable = ['categoria_id', 'Nombre_Producto', 'Precio', 'Cantidad', 'Estado']; 
     
     public static $rules = [ 
-        'categoria_id' =>  'required|exists:categoria,idCategoria',
-        'nombre'  => 'required|min:2',
-        'cantidad' => 'numeric|min:0',
-        'precio' => 'required',
-        'estado' => 'in:1,0'
+        'categoria_id' =>  'required|exists:categoria,id',
+        'Nombre_Producto'  => 'required|min:2',
+        'Cantidad' => 'numeric|min:0',
+        'Precio' => 'required',
+        'Estado' => 'in:1,0'
     ];
 
-
-    protected $primaryKey = 'idProducto';
 
     public $timestamps = false;
 }

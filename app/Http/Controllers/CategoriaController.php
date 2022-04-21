@@ -27,20 +27,20 @@ class CategoriaController extends Controller
         ->addColumn('acciones', function($categoria) {
             
 
-            return '<a href="/categoria/editar/'.$categoria->idCategoria.'" class="btn btn-success btn-sm"><i class="fas fa-edit""></i></a>';
+            return '<a href="/categoria/editar/'.$categoria->id.'" class="btn btn-success btn-sm"><i class="fas fa-edit""></i></a>';
         })
         ->rawColumns(['acciones'])
         ->make(true);
     }
 
     public function save(Request $request){
-        $request->validate(Categoria::$rules);
+        // $request->validate(Categoria::$rules);
         $input = $request->all(); 
 
         try {
 
             Categoria::create([
-                "nombre"=> $input["nombre"],
+                "Nombre_Categoria"=> $input["nombre"],
             ]);
 
             alert()->success('Categoría creado Exitosamente');
@@ -54,7 +54,7 @@ class CategoriaController extends Controller
     
 
     public function edit($id){
-        $categoria = Categoria::select("categoria.*")->where("categoria.idCategoria", $id)->get();
+        $categoria = Categoria::find($id);
 
         if ($categoria == null) {
             
@@ -67,14 +67,15 @@ class CategoriaController extends Controller
     public function update(Request $request)
     {
 
-        $request->validate(Categoria::$rules);
+        //  $request->validate(Categoria::$rules);
 
         $input = $request->all();
 
         
+        
 
         try {
-            $categoria = Categoria::where("categoria.idCategoria", "=", $input["idCategoria"]);
+            $categoria = Categoria::find($input["id"]);
 
            
 /*             return response()->json($categoria); */
@@ -84,7 +85,7 @@ class CategoriaController extends Controller
             }
 
             $categoria->update([
-                "nombre" => $input["nombre"],
+                "Nombre_Categoria" => $input["nombre"],
             ]);
 
           

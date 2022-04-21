@@ -100,8 +100,8 @@
         ajax: '/categoria/listar',
         columns: [
             {
-                data: 'nombre',
-                name: 'nombre'
+                data: 'Nombre_Categoria',
+                name: 'Nombre_Categoria'
             },
             {
                 data: 'acciones',

@@ -7,10 +7,10 @@
     <h2 class="text-center">Modificar Rol</h2>
 <form action="/rol/actualizar" method="post">
     @csrf
-    <input type="hidden" name="idRol" value="{{$rol[0]["idRol"]}}">
+    <input type="hidden" name="id" value="{{$rol->id}}">
     <div class="mb-3">
         <label for="">Nombre</label>
-        <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" value="{{$rol[0]["nombre"]}}">
+        <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" value="{{$rol->Nombre_Rol}}">
         @error('nombre')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>

@@ -100,8 +100,8 @@
         ajax: '/rol/listar',
         columns: [
             {
-                data: 'nombre',
-                name: 'nombre'
+                data: 'Nombre_Rol',
+                name: 'Nombre_Rol'
             },
             {
                 data: 'acciones',

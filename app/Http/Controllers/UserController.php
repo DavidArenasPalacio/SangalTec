@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Rol;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Yajra\Datatables\Datatables; 
 class UserController extends Controller
 {
@@ -21,8 +22,8 @@ class UserController extends Controller
 
 
     public function listar(){
-        $users = User::select("users.id","users.name as nombre","users.documento","users.telefono","users.direccion", "users.email","users.estado","rol.nombre as rol")
-        ->join("rol", "rol.idRol", "=", "users.rol_id")
+        $users = User::select("users.id","users.name as nombre","users.documento","users.telefono","users.direccion", "users.email","users.estado","rol.Nombre_Rol as rol")
+        ->join("rol", "rol.id", "=", "users.rol_id")
         ->get();
        //  return response()->json($users);
         return DataTables::of($users)
@@ -52,73 +53,80 @@ class UserController extends Controller
 
     public function save(Request $request)
     {
-        $request->validate(User::$rules);
+       // $request->validate(User::$rules);
 
         $input = $request->all();
-        try {
-            User::create([   
+        
+        // try {
+            $usuario = User::create([   
                 "rol_id" => $input["rol_id"],
-                "name" => $input["name"], 
+                "name" => $input["nombre"], 
                 "documento" => $input["documento"], 
+                "telefono" => $input["telefono"],
                 "direccion" => $input["direccion"], 
-                "email" => $input["email"],    
+                "email" => $input["email"],  
+                "password" => Hash::make($input["password"]),   
                 "estado" => 1
             ]);
-            alert()->success('Producto creado Exitosamente');
-            return redirect("/producto");
-        } catch (\Exception $e) {
-            alert()->warning('Error', 'Error al crear Producto');
-            return redirect("/producto")->with('error', 'Error al crear producto');;
-        }
+
+            // return dd($usuario);
+
+            alert()->success('Usuario Creado Exitosamente');
+            return redirect("/usuario");
+        // } catch (\Exception $e) {
+        //     alert()->warning('Error', 'Error al crear Usuario');
+        //     return redirect("/usuario")->with('error', 'Error al crear usuario');;
+        // }
     }
 
 
     public function edit($id)
     {
-        $producto = Producto::select("producto.*")->where("producto.idProducto", "=", $id)->get();
-        $categorias = Categoria::all();
+        $usuario = User::find($id);
+        $roles = Rol::all();
         /* return response()->json($producto[0]["idProducto"]); */
-        if ($producto == null) {
+
+        if ($usuario == null) {
             
-            return redirect("/producto");
+            return redirect("/usuario");
         }
 
      
 
 
 
-        return view("producto.edit", compact("producto", "categorias"));
+        return view("usuario.edit", compact("usuario", "roles"));
     }
 
     public function update(Request $request)
     {
 
-       $request->validate(Producto::$rules);
-
         $input = $request->all();
 
         try {
-            $producto = Producto::where("producto.idProducto", "=", $input["idProducto"]);
-
+            $usuario = User::find($input["id"]);
             
 
-            if ($producto == null) {
+            if ($usuario == null) {
                 
-                return redirect("/producto")->with('error', 'Error al modificar producto');
+                return redirect("/usuario")->with('error', 'Error al modificar usuario');
             }
 
-            $producto->update([
-                "categoria_id" => $input["categoria_id"],
-                "nombre" => $input["nombre"],
-                "precio" => $input["precio"]
+            $usuario->update([
+                "rol_id" => $input["rol_id"],
+                "name" => $input["nombre"], 
+                "documento" => $input["documento"], 
+                "telefono" => $input["telefono"],
+                "direccion" => $input["direccion"], 
+                "email" => $input["email"],  
             ]);
 
           
-            alert()->success('Producto modificado Exitosamente');
-            return redirect("/producto");
+            alert()->success('usuario modificado Exitosamente');
+            return redirect("/usuario");
         } catch (\Exception $e) {
-            alert()->warning('Error', 'Error al Modificar Producto');
-            return redirect("/producto");
+            alert()->warning('Error', 'Error al Modificar usuario');
+            return redirect("/usuario");
         }
     }
 

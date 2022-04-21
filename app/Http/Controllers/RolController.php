@@ -20,25 +20,25 @@ class RolController extends Controller
      
 
     public function listar(){
-        $rol = Rol::select("rol.*")->get();
+        $rol = Rol::all();
 
         //return response()->json($categoria);
         return DataTables::of($rol)
         ->addColumn('acciones', function($rol) {
-            return '<a href="/rol/editar/'.$rol->idRol.'" class="btn btn-success btn-sm"><i class="fas fa-edit""></i></a>';
+            return '<a href="/rol/editar/'.$rol->id.'" class="btn btn-success btn-sm"><i class="fas fa-edit""></i></a>';
         })
         ->rawColumns(['acciones'])
         ->make(true);
     }
 
     public function save(Request $request){
-        $request->validate(Rol::$rules);
+       // $request->validate(Rol::$rules);
         $input = $request->all(); 
-
+        //return dd($request);
         try {
 
             Rol::create([
-                "nombre"=> $input["nombre"],
+                "Nombre_Rol"=> $input["nombre"],
             ]);
 
             alert()->success('Rol creado Exitosamente');
@@ -52,7 +52,7 @@ class RolController extends Controller
     
 
     public function edit($id){
-        $rol = Rol::select("rol.*")->where("rol.idRol", $id)->get();
+        $rol = Rol::find($id);
 
         if ($rol == null) {
             
@@ -65,14 +65,14 @@ class RolController extends Controller
     public function update(Request $request)
     {
 
-        $request->validate(Rol::$rules);
+        //$request->validate(Rol::$rules);
 
         $input = $request->all();
 
         
 
         try {
-            $rol = Rol::where("rol.idRol", "=", $input["idRol"]);
+            $rol = Rol::where("rol.id", "=", $input["id"]);
 
            
 /*             return response()->json($categoria); */
@@ -82,7 +82,7 @@ class RolController extends Controller
             }
 
             $rol->update([
-                "nombre" => $input["nombre"],
+                "Nombre_Rol" => $input["nombre"],
             ]);
 
           

@@ -25,7 +25,7 @@
 
                     </div>
                     <div class="modal-body">
-                        <form action="/usurio/guardar" method="post" id="form">
+                        <form action="/usuario/guardar" method="post" id="form">
                             @csrf
                             <div class="mb-3">
                                 <label for="">Nombre:</label>
@@ -41,7 +41,7 @@
                                 <select name="rol_id" class="form-control @error('rol_id') is-invalid @enderror" id="">
                                     <option value="">------Seleccione-----</option>
                                     @foreach($roles as $value)
-                                    <option value="{{ $value->idRol }}">{{ $value->nombre }}</option>
+                                    <option value="{{ $value->id }}">{{ $value->Nombre_Rol }}</option>
                                     @endforeach
                                 </select>
                                 @error('rol_id')
@@ -81,6 +81,15 @@
                                 <label for="">Email: </label>
                                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror">
                                 @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="">Contraseña: </label>
+                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror">
+                                @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -191,12 +200,11 @@
         ]
     }
     );
-
     $('#btnGuardar').click((e) => {
     let form = $('#form');
         e.preventDefault();
         Swal.fire({
-            title: '¿Desea crear el producto?',
+            title: '¿Desea Crear El Usuario?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

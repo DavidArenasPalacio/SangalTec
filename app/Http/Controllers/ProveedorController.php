@@ -26,18 +26,19 @@ class ProveedorController extends Controller
 
         return DataTables::of($proveedor)
             ->editColumn('estado', function ($proveedor) {
-                return $proveedor->estado == 1 ? '<span class="bg-primary p-1 rounded">Activo</span>' : '<span class="bg-danger p-1 rounded">Inactivo</span>';
+                return $proveedor->Estado == 1 ? '<span class="bg-primary p-1 rounded">Activo</span>' : '<span class="bg-danger p-1 rounded">Inactivo</span>';
             })
             ->addColumn('acciones', function ($proveedor) {
                 $estado = '';
 
-                if ($proveedor->estado == 1) {
-                    $estado = '<a href="/proveedor/cambiar/estado/' . $proveedor->idProveedor . '/0" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
+                if ($proveedor->Estado == 1) {
+                    $estado = '<a href="/proveedor/cambiar/estado/' . $proveedor->id . '/0" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
                 } else {
-                    $estado = '<a href="/proveedor/cambiar/estado/' . $proveedor->idProveedor . '/1" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
+                    $estado = '<a href="/proveedor/cambiar/estado/' . $proveedor->id . '/1" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>';
                 }
-                return '<a href="/proveedor/editar/'.$proveedor->idProveedor.'" class="btn btn-primary btn-sm btnEstado"><i class="fas fa-edit"></i></a>'.' '.'<a href="/proveedor/detalle/' . $proveedor->idProveedor . '" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>' . ' ' . $estado;
+                return '<a href="/proveedor/editar/'.$proveedor->id.'" class="btn btn-primary btn-sm btnEstado"><i class="fas fa-edit"></i></a>'.' '.'<a href="/proveedor/detalle/' . $proveedor->id . '" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>' . ' ' . $estado;
             })
+            
             ->rawColumns(['estado', 'acciones'])
             ->make(true);
     }
@@ -54,11 +55,11 @@ class ProveedorController extends Controller
         try {
 
             Proveedor::create([
-                "nombre" => $input["nombre"],
-                "correo" => $input["correo"],
-                "telefono" => $input["telefono"],
-                "direccion" => $input["direccion"],
-                "estado" => 1
+                "Nombre_Proveedor" => $input["nombre"],
+                "Correo_Proveedor" => $input["correo"],
+                "Telefono_Proveedor" => $input["telefono"],
+                "Direccion_Proveedor" => $input["direccion"],
+                "Estado" => 1
             ]);
 
 
@@ -74,7 +75,7 @@ class ProveedorController extends Controller
 
     public function edit($id)
     {
-        $proveedor = Proveedor::select("proveedor.*")->where("proveedor.idProveedor", "=", $id)->get();
+        $proveedor = Proveedor::find($id);
 
         if ($proveedor == null) {
             return redirect("/proveedor");
@@ -90,32 +91,41 @@ class ProveedorController extends Controller
 
         try {
 
-            $proveedor = Proveedor::where("proveedor.idProveedor", $input["idProveedor"]);
+            $proveedor = Proveedor::where("proveedor.id", $input["id"]);
 
             if ($proveedor == null) {
                 return redirect("/proveedor");
             }
 
             $proveedor->update([
-                "nombre" => $input["nombre"],
-                "telefono" => $input["telefono"],
-                "correo" => $input["correo"],
+                "Nombre_Proveedor" => $input["nombre"],
+                "Correo_Proveedor" => $input["correo"],
+                "Telefono_Proveedor" => $input["telefono"],
+                "Direccion_Proveedor" => $input["direccion"],
             ]);
 
             alert()->success('Proveedor modificado exitosamente');
             return redirect("/proveedor");
 
         } catch (\Exception $e) {
-            alert()->warning('ereror', 'Erro al modificar el proveedor');
+            alert()->warning('error', 'Error al modificar el proveedor');
             return redirect("/proveedor");
         }
+    }
+
+    public function detalle($id) 
+    {
+        $proveedor = Proveedor::find($id);
+    
+            return view("proveedor.detalle", compact("proveedor"));
+
     }
 
     public function updateState($id, $estado)
     {
         
 
-        $proveedor = Proveedor::where("proveedor.idProveedor", "=", $id);
+        $proveedor = Proveedor::where("proveedor.id", "=", $id);
 
         if ($proveedor == null) {
           
@@ -127,7 +137,7 @@ class ProveedorController extends Controller
             // example:
 
 
-            $proveedor->update(["estado" => $estado]);
+            $proveedor->update(["Estado" => $estado]);
             alert()->success('Estado modificado Exitosamente');
             return redirect("/proveedor")->with('success', 'Estado modificado satisfactoriamente!');
         } catch (\Exception $e) {

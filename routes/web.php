@@ -3,13 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RolController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ComprasController;
 use App\Http\Controllers\ControlExistenciaController;
 use App\Http\Controllers\ProveedorController;
-
+use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\VentasController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,7 +23,7 @@ use App\Http\Controllers\ProveedorController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('/auth/login');
 });
 
 Auth::routes();
@@ -40,9 +41,7 @@ Route::get('/usuario/listar', [UserController::class, 'listar']);
 Route::post('/usuario/guardar', [UserController::class, 'save']);
 Route::get('/usuario/editar/{id}', [UserController::class, 'edit']);
 Route::post('/usuario/actualizar', [UserController::class, 'update']);
-Route::get('/usuario/cambiar/estado/{idUsuario}/{estado}', [UserController::class, 'updateState']);
-
-
+Route::get('/usuario/cambiar/estado/{id}/{estado}', [UserController::class, 'updateState']);
 
 Route::get('/categoria', [CategoriaController::class, 'index']);
 Route::get('/categoria/listar', [CategoriaController::class, 'listar']);
@@ -57,10 +56,7 @@ Route::get('/producto/listar', [ProductoController::class, 'listar']);
 Route::post('/producto/guardar', [ProductoController::class, 'save']);
 Route::get('/producto/editar/{id}', [ProductoController::class, 'edit']);
 Route::post('/producto/actualizar', [ProductoController::class, 'update']);
-Route::get('/producto/cambiar/estado/{idProducto}/{estado}', [ProductoController::class, 'updateState']);
-
-
-
+Route::get('/producto/cambiar/estado/{id}/{estado}', [ProductoController::class, 'updateState']);
 
 Route::get('/compra', [ComprasController::class, 'index']);
 Route::get('/compra/listar', [ComprasController::class, 'listar']);
@@ -68,12 +64,25 @@ Route::post('/compra/guardar', [ComprasController::class, 'save']);
 Route::get('/compra/detalle/{id}', [ComprasController::class, 'detalle']);
 Route::get('/compra/cambiar/estado/{idCompra}/{estado}', [ComprasController::class, 'updateState']);
 
-Route::get('/controlExistencia', [ControlExistenciaController::class, 'index']);
-Route::get('/controlExistencia/listar', [ControlExistenciaController::class, 'listar']);
-
 Route::get('/proveedor', [ProveedorController::class, 'index']);
 Route::get('/proveedor/listar', [ProveedorController::class, 'listar']);
 Route::post('/proveedor/guardar', [ProveedorController::class, 'save']);
 Route::get('/proveedor/editar/{id}', [ProveedorController::class, 'edit']);
 Route::post('/proveedor/actualizar', [ProveedorController::class, 'update']);
 Route::get('/proveedor/cambiar/estado/{id}/{estado}', [ProveedorController::class, 'updateState']);
+Route::get('/proveedor/detalle/{id}', [ProveedorController::class, 'detalle'])->name('proveedor.detalle')->middleware('auth');
+
+Route::get('/clientes', [ClientesController::class, 'index'])->middleware('auth');
+Route::get('/clientes/listar', [ClientesController::class, 'listar'])->name('clientes.datatable')->middleware('auth');
+Route::get('/clientes/crear', [ClientesController::class, 'crear'])->middleware('auth');
+Route::post('/clientes/guardar', [ClientesController::class, 'store'])->name('clientes.store')->middleware('auth');
+Route::get('/clientes/editar/{id}', [ClientesController::class, 'editar'])->name('clientes.editar')->middleware('auth');
+Route::post('/clientes/actualizar/{id}', [ClientesController::class, 'update'])->name('clientes.actualizar')->middleware('auth');
+Route::get('/clientes/detalle/{id}', [ClientesController::class, 'detalle'])->name('clientes.detalle')->middleware('auth');
+
+Route::get('/ventas', [VentasController::class, 'index'])->middleware('auth');
+Route::get('/ventas/listar', [VentasController::class, 'listar'])->middleware('auth');
+Route::get('/ventas/crear', [VentasController::class, 'crear'])->middleware('auth');
+Route::post('/ventas/guardar', [VentasController::class, 'store'])->name('ventas.store')->middleware('auth');
+Route::get('/ventas/verproductos/{id}', [VentasController::class, 'listardetalle'])->name('ventas.detalle')->middleware('auth');
+Route::get('/ventas/cambiarEstado/{id}/{Estado}', [VentasController::class, 'updateState'])->name('ventas.cambiar')->middleware('auth');
