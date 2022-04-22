@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\DB;
 
 class VentasController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     
     public function index()
     {        

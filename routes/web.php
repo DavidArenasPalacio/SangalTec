@@ -32,6 +32,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/rol', [RolController::class, 'index']);
 Route::get('/rol/listar', [RolController::class, 'listar']);
+Route::get('/rol/create', [RolController::class, 'create']);
 Route::post('/rol/guardar', [RolController::class, 'save']);
 Route::get('/rol/editar/{id}', [RolController::class, 'edit']);
 Route::post('/rol/actualizar', [RolController::class, 'update']);

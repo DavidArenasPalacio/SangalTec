@@ -31,6 +31,10 @@ class RolController extends Controller
         ->make(true);
     }
 
+    public function create(){
+        return view("rol.create");
+    }
+
     public function save(Request $request){
        // $request->validate(Rol::$rules);
         $input = $request->all(); 
